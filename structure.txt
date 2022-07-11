@@ -1,8 +1,6 @@
 download bootstrap clean blog template
-[A
-[A
-[A[D[D[A[C[C[F[B[B[B[B[Bstatic template folder
-static is public folder
-jinja template in index.html
+create and organise static template folder
+    static is public folder
+jinja templates in all html files
 	head body footer in layout.html
-[B[B[B
+add files to python routes
