@@ -4,3 +4,7 @@ create and organise static template folder
 jinja templates in all html files
 	head body footer in layout.html
 add files to python routes
+fetch posts and data from database
+create database and table
+
+# todo #9
