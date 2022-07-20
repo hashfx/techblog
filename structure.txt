@@ -6,5 +6,16 @@ jinja templates in all html files
 add files to python routes
 fetch posts and data from database
 create database and table
+get user data and posts to database
+add a dummy user to database to initialise sno
+create a config.json file
+set local and production server URI in config.json
+set social media urls in config.json and update in layout.html
+site templates can be modified through config.json
+send mail through flask-mail
+create slug for posts
+create a post page and router
+update jinja template in existing post.html
+fetch post from database and display in post.html
 
-# todo #9
+

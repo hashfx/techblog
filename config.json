@@ -1,0 +1,14 @@
+{
+  "params": {
+    "local_server": "True",
+    "local_uri": "mysql://root:@localhost/techblog",
+    "prod_uri": "mysql://root:@localhost/techblog",
+    "blog_name": "Tech_x_Blog",
+    "fb_id": "https://facebook.com/techblog",
+    "tw_id": "https://twitter.com/harshSoni_tech",
+    "gh_id": "https://github.com/hashfx",
+    "gmail-user": "user",
+    "gmail-password": "pw123",
+    "about_text": "This is a blog about Technology by Admin"
+  }
+}
