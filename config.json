@@ -9,6 +9,10 @@
     "gh_id": "https://github.com/hashfx",
     "gmail-user": "user",
     "gmail-password": "pw123",
-    "about_text": "This is a blog about Technology by Admin"
+    "about_text": "This is a blog about Technology by Admin",
+    "no_of_posts": "1",
+    "login_img": "login.svg",
+    "admin_user": "admin",
+    "admin_password": "admin"
   }
 }

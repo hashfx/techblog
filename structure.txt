@@ -17,5 +17,10 @@ create slug for posts
 create a post page and router
 update jinja template in existing post.html
 fetch post from database and display in post.html
-
+display posts on index.html through html for loop
+create login page for admin login
+validate user login through config.json
+create session variable
+set secret key in flask
+create jinja table to display post content on dashboard
 

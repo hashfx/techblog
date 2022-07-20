@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 from flask_mail import Mail
@@ -11,6 +11,7 @@ with open('config.json', 'r') as c:
 
 local_server = True  # if True, then run on local server; if False, then run on heroku
 app = Flask(__name__)
+app.secret_key = 'my-secret-key'  # flask secret key
 app.config.update(
     MAIL_SERVER='smtp.gmail.com',
     MAIL_PORT='465',
@@ -25,7 +26,6 @@ mail = Mail(app)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/techblog'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/test'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost:3306/techblog'
-
 
 # if on local server
 # if (local_server):
@@ -50,6 +50,7 @@ class Contacts(db.Model):
         self.msg = msg
         self.date = date
         self.email = email
+
     #
     def __repr__(self):
         return '<Contacts %r>' % self.name
@@ -58,15 +59,38 @@ class Contacts(db.Model):
 class Posts(db.Model):
     sno = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), nullable=False)
+    subtitle = db.Column(db.String(80), nullable=False)
     slug = db.Column(db.String(21), nullable=False)
     content = db.Column(db.String(12), nullable=False)
     date = db.Column(db.String(25), nullable=True)
     img_file = db.Column(db.String(25), nullable=True)
 
 
+@app.route('/dashboard', methods=['GET', 'POST'])
+def dashboard():
+    # if user is already logged in
+    if ('user' in session and session['user'] == params['admin_user']):
+        posts = Posts.query.all()
+        return render_template('dashboard.html', params=params, posts=posts)  # display dashboard without login prompt
+
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        if username == params['admin_user'] and password == params['admin_password']:
+            # set session variable
+            session['user'] = username  # session variable: user :: value: username
+            # fetch all posts from database to display on admin panel
+            posts = Posts.query.all()
+            return render_template('dashboard.html', params=params, posts=posts)
+    else:
+        return render_template('login.html', params=params)
+
+
 @app.route("/")
 def home():
-    return render_template('index.html', params=params)  # params from config.json
+    # search posts in db
+    posts = Posts.query.filter_by().all()  # [0:params['no_of_posts']]  # get the first {no_of_posts} posts
+    return render_template('index.html', params=params, posts=posts)  # params from config.json
 
 
 @app.route("/about")
