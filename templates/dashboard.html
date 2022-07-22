@@ -21,6 +21,8 @@
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
 
+            <h1>Upload your file here</h1>
+
             <table class="table">
                 <thead>
                 <tr>
@@ -38,7 +40,7 @@
                     <td>{{post.sno}}</td>
                     <td>{{post.title}}</td>
                     <td>{{post.date}}</td>
-                    <td><button class="btn btn-primary">Edit</button></td>
+                    <td><a href="/edit/{{post.sno}}"><button class="btn btn-primary">Edit</button></a></td>
                     <td><button class="btn btn-primary">Delete</button></td>
                 </tr>
                 {% endfor %}

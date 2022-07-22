@@ -23,4 +23,6 @@ validate user login through config.json
 create session variable
 set secret key in flask
 create jinja table to display post content on dashboard
+create log out button in dashboard
+create edit post UI in edit.html
 

@@ -114,6 +114,7 @@ def contact():
         # transaction control language
         db.session.add(entry)
         db.session.commit()
+        # message through Flask Mail
         mail.send_message(
             'New message from: ' + name,
             sender=email,
@@ -122,6 +123,30 @@ def contact():
         )
 
     return render_template('contact.html', params=params)
+
+
+@app.route("/edit/<string:sno>", methods=['GET'])
+def edit(sno):
+    # check if user is logged in
+    if ('user' in session and session['user'] == params['admin_user']):
+        if request.method == 'POST':
+            # sno won't be changed being it a Primary Key
+            edit_title = request.form.get('title')
+            edit_subtitle = request.form.get('subtitle')
+            edit_slug = request.form.get('slug')
+            edit_content = request.form.get('content')
+            edit_img = request.form.get('img')
+
+            # if sno is 0, new post is written; else existing post is being edited
+            if sno == '0':
+                post = Posts(title=edit_title, subtitle=edit_subtitle, slug=edit_slug, content=edit_content,
+                             img_file=edit_img)
+                db.session.add(post)
+                db.session.commit()
+        return render_template('edit.html', params=params)
+
+    # else:
+    #     return render_template('login.html', params=params)
 
 
 @app.route("/post/<string:post_slug>", methods=['GET'])
