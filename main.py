@@ -100,18 +100,18 @@ def home():
     last page: prev url='page-1' next url='#'
     """
     page = request.args.get('page')  # GET request for page
-    if (not str(page).isnumeric()):  # if page is number
+    if not str(page).isnumeric():  # if page is number
         page = 1  # initial page = 1
     page = int(page)  # convert page to integer
     # slicing posts to display only {no_of_posts} posts
     posts = posts[(page - 1) * int(params['no_of_posts']):(page - 1) * int(params['no_of_posts']) + int(params['no_of_posts'])]
 
     # first page
-    if (page == 1):
+    if page == 1:
         prev = '#'
         next = '/?page=' + str(page + 1)
     # last page
-    elif (page == last):
+    elif page == last:
         prev = '/?page=' + str(page - 1)
         next = '#'
     # middle page
