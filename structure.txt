@@ -25,4 +25,8 @@ set secret key in flask
 create jinja table to display post content on dashboard
 create log out button in dashboard
 create edit post UI in edit.html
+add a new post
+edit an existing post
+display existing data in 'value' attribute of edit.html
+file upload utility at dashboard
 

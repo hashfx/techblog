@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, redirect
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 from flask_mail import Mail
@@ -125,7 +125,7 @@ def contact():
     return render_template('contact.html', params=params)
 
 
-@app.route("/edit/<string:sno>", methods=['GET'])
+@app.route("/edit/<string:sno>", methods=['GET', 'POST'])
 def edit(sno):
     # check if user is logged in
     if ('user' in session and session['user'] == params['admin_user']):
@@ -136,14 +136,28 @@ def edit(sno):
             edit_slug = request.form.get('slug')
             edit_content = request.form.get('content')
             edit_img = request.form.get('img')
+            edit_date = datetime.now()
 
             # if sno is 0, new post is written; else existing post is being edited
-            if sno == '0':
+            if sno == 'new':
                 post = Posts(title=edit_title, subtitle=edit_subtitle, slug=edit_slug, content=edit_content,
-                             img_file=edit_img)
+                             img_file=edit_img, date=edit_date)
                 db.session.add(post)
                 db.session.commit()
-        return render_template('edit.html', params=params)
+            # fetch existing post to edit
+            else:
+                post = Posts.query.filter_by(sno=sno).first()
+                post.title = edit_title
+                post.slug = edit_slug
+                post.subtitle = edit_subtitle
+                post.content = edit_content
+                post.img_file = edit_img
+                post.date = edit_date
+                db.session.commit()
+                return redirect('/edit/' + sno)  # redirect to
+
+        post = Posts.query.filter_by(sno=sno).first()
+        return render_template('edit.html', params=params, post=post)
 
     # else:
     #     return render_template('login.html', params=params)
