@@ -216,7 +216,7 @@ def edit(sno):
                 return redirect('/edit/' + sno)  # redirect to
 
         post = Posts.query.filter_by(sno=sno).first()
-        return render_template('edit.html', params=params, post=post)
+        return render_template('edit.html', params=params, post=post, sno=sno)
 
     # else:
     #     return render_template('login.html', params=params)
