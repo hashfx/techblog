@@ -13,6 +13,7 @@
     "no_of_posts": "1",
     "login_img": "login.svg",
     "admin_user": "admin",
-    "admin_password": "admin"
+    "admin_password": "admin",
+    "upload_location": "C:\\Users\\Soni ji\\PycharmProjects\\Blogsite\\static"
   }
 }

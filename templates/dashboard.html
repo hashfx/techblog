@@ -22,15 +22,18 @@
         <div class="col-md-10 col-lg-8 col-xl-7">
 
             <h1>Basic Actions</h1>
-            <a href="/edit/new"><button class="btn btn-success">Add New Post</button></a>
-            <a href="/logout"><button class="btn btn-danger">Logout</button></a>
-            <a href="/edit/new"><button class="btn btn-success">Button</button></a>
+            <a href="/edit/new">
+                <button class="btn btn-success">Add New Post</button>
+            </a>
+            <a href="/logout">
+                <button class="btn btn-danger">Logout</button>
+            </a>
             <hr>
 
             <h1>Upload your file here</h1>
-            <form action="upload" method="post">
-                <input type="file" name="file" />
-                <input type="submit" value="Upload" />
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <input type="file" name="file"/>
+                <button class="btn btn-success" type="submit">Upload File</button>
             </form>
             <hr>
 
@@ -51,8 +54,12 @@
                     <td>{{post.sno}}</td>
                     <td>{{post.title}}</td>
                     <td>{{post.date}}</td>
-                    <td><a href="/edit/{{post.sno}}"><button class="btn btn-primary">Edit</button></a></td>
-                    <td><button class="btn btn-primary">Delete</button></td>
+                    <td><a href="/edit/{{post.sno}}">
+                        <button class="btn btn-primary">Edit</button>
+                    </a></td>
+                    <td><a href="/delete/{{post.sno}}">
+                        <button class="btn btn-primary">Delete</button>
+                    </a></td>
                 </tr>
                 {% endfor %}
                 </tbody>

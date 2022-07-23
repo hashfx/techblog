@@ -26,7 +26,14 @@ create jinja table to display post content on dashboard
 create log out button in dashboard
 create edit post UI in edit.html
 add a new post
+delete existing post
 edit an existing post
 display existing data in 'value' attribute of edit.html
 file upload utility at dashboard
+secure file upload through secure_filename()
+secure_filename() doesn't allow user to enter filename with special characters or "../../dir_name/file_name.extension"
+logout user by popping/killing session variable
+
+
+
 

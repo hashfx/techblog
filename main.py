@@ -1,6 +1,8 @@
+import os
+
 from flask import Flask, render_template, request, session, redirect
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine
+from werkzeug.utils import secure_filename
 from flask_mail import Mail
 from datetime import datetime
 import json
@@ -12,6 +14,7 @@ with open('config.json', 'r') as c:
 local_server = True  # if True, then run on local server; if False, then run on heroku
 app = Flask(__name__)
 app.secret_key = 'my-secret-key'  # flask secret key
+app.config['UPLOAD_FOLDER'] = params['upload_location']
 app.config.update(
     MAIL_SERVER='smtp.gmail.com',
     MAIL_PORT='465',
@@ -97,6 +100,35 @@ def home():
 def about():
     return render_template('about.html', params=params)
 
+
+@app.route("/logout")
+def logout():
+    # kill session to logout user
+    session.pop('user')
+    return redirect('/dashboard')
+
+
+@app.route("/delete/<string:sno>", methods=['GET', 'POST'])
+def delete(sno):
+    # check if user is logged in
+    if ('user' in session and session['user'] == params['admin_user']):
+        # sno = request.form.get('sno')
+        post = Posts.query.filter_by(sno=sno).first()
+        db.session.delete(post)  # delete from database
+        db.session.commit()  # commit recent changes
+    return redirect('/dashboard')
+
+
+@app.route("/upload", methods=['GET', 'POST'])
+def upload():
+    # check if user is logged in
+    if ('user' in session and session['user'] == params['admin_user']):
+        if request.method == "POST":
+            f = request.files['file']  # fetch file from request
+            # save file
+            f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
+            # secure_filename: remove special characters from file name and prohibits file name with ../../ and more
+            return "File Uploaded successfully"
 
 @app.route("/contact", methods=['GET', 'POST'])
 def contact():
