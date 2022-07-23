@@ -41,6 +41,7 @@
             <!-- Post Preview using HTML FOR END -->
 
             <!-- Manual Post preview Start -->
+            <!--
             <div class="post-preview">
                 <a href="post.html">
                     <h2 class="post-title">Man must explore, and this is exploration at its greatest</h2>
@@ -52,6 +53,7 @@
                     on September 24, 2022
                 </p>
             </div>
+            -->
 
             <!-- Divider-->
             <hr class="my-4"/>
@@ -60,9 +62,11 @@
 
 
             <!-- Pager-->
-            <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older
-                Posts
-                →</a></div>
+            <div class="clearfix">
+                <!-- {% if number!=0 %} -->
+                <a class="btn btn-primary text-uppercase float-start" href="{{prev}}"> &lArr; Previous Posts</a>
+                <!-- {% endif %} -->
+                <a class="btn btn-primary text-uppercase float-end" href="{{next}}">Next Posts &rArr;</a></div>
         </div>
     </div>
 </div>

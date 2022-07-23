@@ -1,5 +1,5 @@
+import math
 import os
-
 from flask import Flask, render_template, request, session, redirect
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
@@ -91,9 +91,35 @@ def dashboard():
 
 @app.route("/")
 def home():
-    # search posts in db
-    posts = Posts.query.filter_by().all()  # [0:params['no_of_posts']]  # get the first {no_of_posts} posts
-    return render_template('index.html', params=params, posts=posts)  # params from config.json
+    # fetch all posts from database to display on home page
+    posts = Posts.query.filter_by().all()  # get the first {no_of_posts} posts
+    last = math.ceil(len(posts) / int(params['no_of_posts']))  # greatest integer function
+    """ pagination logic
+    first page: prev url='/' next url='page+1'
+    middle page: prev url='page-1' next url='page+1'
+    last page: prev url='page-1' next url='#'
+    """
+    page = request.args.get('page')  # GET request for page
+    if (not str(page).isnumeric()):  # if page is number
+        page = 1  # initial page = 1
+    page = int(page)  # convert page to integer
+    # slicing posts to display only {no_of_posts} posts
+    posts = posts[(page - 1) * int(params['no_of_posts']):(page - 1) * int(params['no_of_posts']) + int(params['no_of_posts'])]
+
+    # first page
+    if (page == 1):
+        prev = '#'
+        next = '/?page=' + str(page + 1)
+    # last page
+    elif (page == last):
+        prev = '/?page=' + str(page - 1)
+        next = '#'
+    # middle page
+    else:
+        prev = '/?page=' + str(page - 1)
+        next = '/?page=' + str(page + 1)
+
+    return render_template('index.html', params=params, posts=posts, prev=prev, next=next)  # params from config.json
 
 
 @app.route("/about")
@@ -129,6 +155,7 @@ def upload():
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
             # secure_filename: remove special characters from file name and prohibits file name with ../../ and more
             return "File Uploaded successfully"
+
 
 @app.route("/contact", methods=['GET', 'POST'])
 def contact():

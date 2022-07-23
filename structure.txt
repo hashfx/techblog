@@ -33,6 +33,7 @@ file upload utility at dashboard
 secure file upload through secure_filename()
 secure_filename() doesn't allow user to enter filename with special characters or "../../dir_name/file_name.extension"
 logout user by popping/killing session variable
+create pagination to toggle between old and new posts
 
 
 
